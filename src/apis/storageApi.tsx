@@ -1,4 +1,4 @@
-import { apiServerUrl } from "../../constants";
+import { apiServerUrl } from "../constants";
 import { CallAPI } from "../utils/callApi";
 
 export const storageApi = {

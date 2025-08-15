@@ -33,7 +33,7 @@ function Layout() {
           borderBottom: "1px solid var(--border-color)",
         }}
       >
-        <Header />
+        <Header showLogoutBtn={true} />
       </div>
       <div
         style={{

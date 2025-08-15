@@ -1,4 +1,4 @@
-export const LinkButton = ({ onClick, label, icon: Icon }: any) => {
+export const LinkButton = ({ onClick, label, icon: Icon, iconSize = 18 }: any) => {
   return (
     <button
       onClick={onClick}
@@ -15,7 +15,7 @@ export const LinkButton = ({ onClick, label, icon: Icon }: any) => {
       <span style={{ color: "var(--primary-color)", fontWeight: "bold" }}>
         {label}
       </span>
-      <Icon size={18} color="var(--primary-color)" />
+      <Icon size={iconSize} color="var(--primary-color)" />
     </button>
   );
 };

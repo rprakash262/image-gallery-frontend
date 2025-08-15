@@ -1,12 +1,21 @@
-import { IconLogout } from "@tabler/icons-react";
+import { IconLogout, IconBrandGithubFilled } from "@tabler/icons-react";
 
 import { useAuth } from "../../hooks/useAuth";
 import Button from "../UI/button/Button";
 import { LinkButton } from "../UI/linkButton/LinkButton";
 // import Logo from "../../../public/assets/logo.jpg"
 
-function Header() {
+interface HeaderProps {
+  showLogoutBtn?: boolean;
+  showGithubBtn?: boolean;
+}
+
+function Header({ showLogoutBtn, showGithubBtn }: HeaderProps) {
   const { logout } = useAuth();
+
+  const onGithubClick = () => {
+    window.open("https://github.com/rprakash262/image-gallery-frontend", "_blank")
+  }
 
   return (
     <div
@@ -25,10 +34,20 @@ function Header() {
       <div>
         <img src="/assets/logo.jpg" style={{ height: "58px" }} />
       </div>
-      <div>
-        {/* <Button label="Logout" btnType="primary" onClick={logout} /> */}
-        <LinkButton onClick={logout} label="Logout" icon={IconLogout} />
-      </div>
+      {showLogoutBtn && (
+        <div>
+          <LinkButton onClick={logout} label="Logout" icon={IconLogout} />
+        </div>
+      )}
+      {showGithubBtn && (
+        <div>
+          <LinkButton
+            onClick={onGithubClick}
+            icon={IconBrandGithubFilled}
+            iconSize={26}
+          />
+        </div>
+      )}
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import { IconLogout, IconBrandGithubFilled } from "@tabler/icons-react";
+import { useNavigate } from "react-router";
 
 import { useAuth } from "../../hooks/useAuth";
 import Button from "../UI/button/Button";
@@ -12,9 +13,14 @@ interface HeaderProps {
 
 function Header({ showLogoutBtn, showGithubBtn }: HeaderProps) {
   const { logout } = useAuth();
+  const navigate = useNavigate();
 
   const onGithubClick = () => {
     window.open("https://github.com/rprakash262/image-gallery-frontend", "_blank")
+  }
+
+  const goToHome = () => {
+    navigate("/")
   }
 
   return (
@@ -32,7 +38,11 @@ function Header({ showLogoutBtn, showGithubBtn }: HeaderProps) {
       }}
     >
       <div>
-        <img src="/assets/logo.jpg" style={{ height: "58px" }} />
+        <img
+          src="/assets/logo.jpg"
+          style={{ height: "58px", cursor: "pointer" }}
+          onClick={goToHome}
+        />
       </div>
       {showLogoutBtn && (
         <div>

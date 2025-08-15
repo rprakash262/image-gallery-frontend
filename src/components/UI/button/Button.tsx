@@ -1,9 +1,9 @@
 interface ButtonProps {
-  label: string;
+  label: string | React.ReactNode;
   btnType: "primary" | "secondary";
   isDisabled?: boolean;
   isLoading?: boolean;
-  onClick: () => void;
+  onClick: (e: any) => void;
   style?: any;
 }
 

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { IconHeart, IconHeartFilled } from "@tabler/icons-react";
+import { useSelector, useDispatch } from "react-redux";
 
 // import TextInput from "../../components/UI/textInput/TextInput";
 import { Photo, PresignedDownloadUrl } from "../../types";
@@ -8,9 +9,10 @@ import { storageApi } from "../../apis/storageApi";
 import { imagesApi } from "../../apis/imagesApi";
 // import { albumApi } from "../../apis/albumApi";
 // import Select from "../../components/UI/select/Select";
-import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import Button from "../../components/UI/button/Button";
+import Checkbox from "../../components/UI/checkbox/Checkbox";
+import { setAlertBoxMsg } from "../../store/slices/alertBoxSlice";
 
 interface Image extends Photo {
   signedUrl: string;
@@ -23,6 +25,8 @@ export const ViewOnePhoto = () => {
   // const [albums, setAlbums] = useState<Album[]>([]);
   const [selectedAlbumIds, setSelectedAlbumIds] = useState<string[]>([]);
   // const [albumSearchText, setAlbumSearchText] = useState<string>("");
+  const [isLoadingImage, setIsLoadingImage] = useState<boolean>(true);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     fetchImageById();
@@ -45,6 +49,7 @@ export const ViewOnePhoto = () => {
     };
     setImage(img);
     setSelectedAlbumIds(img.album);
+    setIsLoadingImage(false);
   };
 
   // const fetchAlbums = async () => {
@@ -65,7 +70,6 @@ export const ViewOnePhoto = () => {
       try {
         await imagesApi.toggleMarkImageAsFavorite(
           photoId,
-          // "isFavorite",
           isFavorite
         );
 
@@ -73,7 +77,23 @@ export const ViewOnePhoto = () => {
           ...image,
           isFavorite,
         } as Image);
-      } catch (error) {}
+
+        const alertMsgText = isFavorite ? "Photo added to favorite." : "Photo removed from favorite.";
+
+        dispatch(
+          setAlertBoxMsg({
+            alertMsgText,
+            alertMsgType: "success",
+          })
+        );
+      } catch (error: any) {
+        dispatch(
+          setAlertBoxMsg({
+            alertMsgText: String(error.message),
+            alertMsgType: "error",
+          })
+        );
+      }
     }
   };
 
@@ -97,10 +117,25 @@ export const ViewOnePhoto = () => {
   };
 
   const addToAlbums = async () => {
-    await imagesApi.updateImageAlbums(image?._id!, selectedAlbumIds);
+    try {
+      await imagesApi.updateImageAlbums(image?._id!, selectedAlbumIds);
+      dispatch(
+        setAlertBoxMsg({
+          alertMsgText: "Album updated successfully.",
+          alertMsgType: "success",
+        })
+      );
+    } catch (error: any) {
+      dispatch(
+        setAlertBoxMsg({
+          alertMsgText: String(error.message),
+          alertMsgType: "error",
+        })
+      );
+    }
   };
 
-  return (
+  return isLoadingImage ? null : (
     <div
       style={{
         padding: "10px",
@@ -118,7 +153,7 @@ export const ViewOnePhoto = () => {
           src={image?.signedUrl}
           alt="image"
         />
-        <div style={{ position: "absolute", top: "10px", right: "10px" }}>
+        {/*<div style={{ position: "absolute", top: "10px", right: "10px" }}>
           {image?.isFavorite ? (
             <IconHeartFilled
               size={24}
@@ -134,7 +169,7 @@ export const ViewOnePhoto = () => {
               cursor="pointer"
             />
           )}
-        </div>
+        </div>*/}
       </div>
       <div
         style={{
@@ -155,19 +190,60 @@ export const ViewOnePhoto = () => {
             <IconHeart size={24} color="var(--primary-color)" onClick={markFavorite} />
           )}
         </div> */}
-        <p>Add to albums:</p>
+        <h4 style={{ textAlign: "center", fontSize: "18px" }}>Add to albums:</h4>
         {allAlbums.map((album) => (
-          <div key={album._id}>
-            <input
+          <div
+            key={album._id}
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              padding: "10px 0",
+              borderBottom: "1px solid var(--border-color)"
+            }}
+          >
+            {/*<input
               type="checkbox"
               checked={selectedAlbumIds.includes(album._id)}
               style={{ marginRight: "10px" }}
               onChange={() => onAlbumSelect(album._id)}
-            />
+            />*/}
             {album.albumName}
+            <Checkbox
+              checked={selectedAlbumIds.includes(album._id)}
+              style={{ marginRight: "10px" }}
+              onChange={() => onAlbumSelect(album._id)}
+            />
           </div>
         ))}
-        <Button btnType="primary" label="Update" onClick={addToAlbums} />
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            gap: "10px",
+            justifyContent: "center",
+            alignItems: "center"
+          }}
+        >
+          <Button
+            btnType="primary"
+            label="Update"
+            onClick={addToAlbums}
+          />
+          <Button
+            btnType="primary"
+            label={image?.isFavorite ? <IconHeartFilled size={22} /> : <IconHeart size={22} />}
+            // icon={IconHeart}
+            style={{ width: "48px", padding: "5px", }}
+            onClick={image?.isFavorite ? unMarkFavorite : markFavorite}
+          />
+        </div>
+        {/*<Button
+          btnType="primary"
+          label="Update"
+          onClick={addToAlbums}
+        />*/}
         <div style={{ display: "flex", flexDirection: "row" }}></div>
         {/* <TextInput
             value={albumSearchText}

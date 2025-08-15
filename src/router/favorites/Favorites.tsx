@@ -72,7 +72,9 @@ function Favorites() {
         height: "100%",
         overflowY: "scroll",
         display: "grid",
-        gridTemplateColumns: "auto auto auto",
+        // gridTemplateColumns: "auto auto auto",
+        gridTemplateColumns: "repeat(auto-fill, 200px)",
+        gap: "20px",
         padding: "10px",
         boxSizing: "border-box",
       }}

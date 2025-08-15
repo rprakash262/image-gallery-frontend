@@ -13,6 +13,7 @@ import { RootState } from "../../store";
 import Button from "../../components/UI/button/Button";
 import Checkbox from "../../components/UI/checkbox/Checkbox";
 import { setAlertBoxMsg } from "../../store/slices/alertBoxSlice";
+import { setBreadcrumsSteps } from "../../store/slices/breadcrumsSlice";
 
 interface Image extends Photo {
   signedUrl: string;
@@ -30,6 +31,9 @@ export const ViewOnePhoto = () => {
 
   useEffect(() => {
     fetchImageById();
+    dispatch(
+      setBreadcrumsSteps(["Photo"])
+    )
   }, []);
 
   // useEffect(() => {
@@ -191,32 +195,38 @@ export const ViewOnePhoto = () => {
           )}
         </div> */}
         <h4 style={{ textAlign: "center", fontSize: "18px" }}>Add to albums:</h4>
-        {allAlbums.map((album) => (
-          <div
-            key={album._id}
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-              padding: "10px 0",
-              borderBottom: "1px solid var(--border-color)"
-            }}
-          >
-            {/*<input
-              type="checkbox"
-              checked={selectedAlbumIds.includes(album._id)}
-              style={{ marginRight: "10px" }}
-              onChange={() => onAlbumSelect(album._id)}
-            />*/}
-            {album.albumName}
-            <Checkbox
-              checked={selectedAlbumIds.includes(album._id)}
-              style={{ marginRight: "10px" }}
-              onChange={() => onAlbumSelect(album._id)}
-            />
-          </div>
-        ))}
+        <div
+          style={{
+            marginBottom: "10px",
+          }}
+        >
+          {allAlbums.map((album) => (
+            <div
+              key={album._id}
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+                padding: "10px 0",
+                borderBottom: "1px solid var(--border-color)",
+              }}
+            >
+              {/*<input
+                type="checkbox"
+                checked={selectedAlbumIds.includes(album._id)}
+                style={{ marginRight: "10px" }}
+                onChange={() => onAlbumSelect(album._id)}
+              />*/}
+              {album.albumName}
+              <Checkbox
+                checked={selectedAlbumIds.includes(album._id)}
+                style={{ marginRight: "10px" }}
+                onChange={() => onAlbumSelect(album._id)}
+              />
+            </div>
+          ))}
+        </div>
         <div
           style={{
             display: "flex",

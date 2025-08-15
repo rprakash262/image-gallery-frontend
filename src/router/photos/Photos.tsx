@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
 
 import { imagesApi } from "../../apis/imagesApi";
 import { storageApi } from "../../apis/storageApi";
@@ -7,15 +8,22 @@ import OnePhoto from "./OnePhoto";
 import { Photo, PresignedDownloadUrl } from "../../types";
 import PageLoader from "../../components/pageLoader/PageLoader";
 import NewItemFloatingBtn from "../../components/newItemFloatingBtn/NewItemFloatingBtn";
+import { setBreadcrumsSteps } from "../../store/slices/breadcrumsSlice";
 
 function Photos() {
   const [photos, setPhotos] = useState<Photo[]>([]);
   const [imageSources, setImageSources] = useState<any>({});
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     fetchPhotos();
+    dispatch(setBreadcrumsSteps(["Photos"]))
+
+    return () => {
+      dispatch(setBreadcrumsSteps([]));
+    }
   }, []);
 
   const fetchPhotos = async () => {
@@ -78,7 +86,9 @@ function Photos() {
         height: "100%",
         overflowY: "scroll",
         display: "grid",
-        gridTemplateColumns: "auto auto auto auto",
+        // gridTemplateColumns: "auto auto auto auto",
+        gridTemplateColumns: "repeat(auto-fill, 200px)",
+        gap: "20px",
         // gridTemplateColumns: "none",
         padding: "10px",
         boxSizing: "border-box",

@@ -1,15 +1,19 @@
 import { useEffect } from "react";
 import { Outlet } from "react-router";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import Navbar from "../navbar/Navbar";
 import Header from "../header/Header";
 import { albumApi } from "../../apis/albumApi";
 import { setAllAlbums } from "../../store/slices/albumsSlice";
-import { AppDispatch } from "../../store";
+import { AppDispatch, RootState } from "../../store";
+import { Breadcrums } from "../breadcrums/Breadcrums";
 
 function Layout() {
   const dispatch = useDispatch<AppDispatch>();
+  const breadcrumSteps = useSelector(
+    (state: RootState) => state.breadcrums.breadcrumsSteps
+  );
 
   useEffect(() => {
     fetchAlbums();
@@ -52,8 +56,11 @@ function Layout() {
         >
           <Navbar />
         </div>
-        <div style={{ display: "flex", flex: 1 }}>
-          <Outlet />
+        <div style={{ display: "flex", flex: 1, flexDirection: "column" }}>
+          {breadcrumSteps.length > 0 && <Breadcrums steps={breadcrumSteps} />}
+          <div style={{ height: breadcrumSteps.length > 0 ? "calc(100% - 38px)" : "100%" }}>
+            <Outlet />
+          </div>
         </div>
       </div>
     </div>

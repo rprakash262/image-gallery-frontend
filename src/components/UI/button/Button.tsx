@@ -18,7 +18,6 @@ function Button({
   return (
     <button
       style={{
-        ...style,
         width: "100%",
         padding: "10px",
         cursor: isDisabled || isLoading ? "no-drop" : "pointer",
@@ -30,6 +29,7 @@ function Button({
             : "var(--secondary-color)",
         color: btnType === "primary" ? "#fff" : "#000",
         // marginBottom: "10px",
+        ...style,
       }}
       onClick={onClick}
       disabled={isDisabled || isLoading}

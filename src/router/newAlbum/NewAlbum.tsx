@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 
 import { AppDispatch } from "../../store";
-// import { setAlertBoxMsg } from "../../store/slices/alertBoxSlice";
 import FormControl from "../../components/UI/formControl/FormControl";
 import Button from "../../components/UI/button/Button";
 import { albumApi } from "../../apis/albumApi";
@@ -14,17 +13,27 @@ function NewAlbum() {
   const [isSaving, setIsSaving] = useState<boolean>(false);
 
   const saveAlbum = async () => {
-    setIsSaving(true);
-    await albumApi.createNewAlbum(albumName);
+    try {
+      setIsSaving(true);
+      await albumApi.createNewAlbum(albumName);
+
+      setAlbumName("");
+      dispatch(
+        setAlertBoxMsg({
+          alertMsgText: "Album created",
+          alertMsgType: "success",
+        })
+      );
+    } catch (error: any) {
+      dispatch(
+        setAlertBoxMsg({
+          alertMsgText: String(error.message),
+          alertMsgType: "error",
+        })
+      );
+    }
 
     setIsSaving(false);
-    setAlbumName("");
-    dispatch(
-      setAlertBoxMsg({
-        alertMsgText: "Album created",
-        alertMsgType: "success",
-      })
-    );
   };
 
   return (

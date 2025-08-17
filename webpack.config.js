@@ -2,6 +2,7 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const webpack = require("webpack");
 const Dotenv = require("dotenv-webpack");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   entry: {
@@ -56,6 +57,14 @@ module.exports = {
     new HtmlWebpackPlugin({ template: "./public/index.html" }),
     new webpack.ProvidePlugin({
       React: "react", // Automatically import React where needed
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: path.resolve(__dirname, "public/assets"),
+          to: "assets", // dist/assets/
+        },
+      ],
     }),
   ],
   mode: "development",

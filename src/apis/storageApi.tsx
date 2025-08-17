@@ -4,7 +4,7 @@ import { CallAPI } from "../utils/callApi";
 export const storageApi = {
   fetchImagesUrl: async function (urlKeys: string[]) {
     const response = await fetch(
-      "http://localhost:5000/api/v1/storage/presigned-url",
+      `${apiServerUrl}/storage/presigned-url`,
       {
         method: "post",
         body: JSON.stringify({

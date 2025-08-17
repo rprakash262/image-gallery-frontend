@@ -1,10 +1,12 @@
 import { CallAPI } from "../utils/callApi";
 
-const baseApiUrl = process.env.API_SERVER_URL;
+import { apiServerUrl } from "../constants";
+
+// const baseApiUrl = process.env.API_SERVER_URL;
 
 export const userApi = {
   register: async function (email: string, password: string) {
-    const url = new URL(`${baseApiUrl}/users/register`);
+    const url = new URL(`${apiServerUrl}/users/register`);
 
     return CallAPI({
       URL: url,
@@ -34,7 +36,7 @@ export const userApi = {
     // return jsonResponse;
   },
   login: async function (email: string, password: string) {
-    const url = new URL(`${baseApiUrl}/users/login`);
+    const url = new URL(`${apiServerUrl}/users/login`);
 
     return CallAPI({
       URL: url,

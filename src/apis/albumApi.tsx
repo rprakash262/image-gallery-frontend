@@ -18,7 +18,7 @@ export const albumApi = {
     })
   },
   getAlbums: async function () {
-    const response = await fetch("http://localhost:5000/api/v1/albums", {
+    const response = await fetch(`${apiServerUrl}/albums`, {
       method: "get",
       headers: {
         "content-type": "application/json",
@@ -32,7 +32,7 @@ export const albumApi = {
   },
   searchAlbums: async function (query: string) {
     const response = await fetch(
-      `http://localhost:5000/api/v1/albums?query=${query}`,
+      `${apiServerUrl}/albums?query=${query}`,
       {
         method: "get",
         headers: {

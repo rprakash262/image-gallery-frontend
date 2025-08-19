@@ -54,4 +54,12 @@ export const albumApi = {
       METHOD: "get",
     });
   },
+  fetchAlbumDetailsById: async function (albumId: string) {
+    const url = new URL(`${apiServerUrl}/albums/${albumId}`);
+
+    return CallAPI({
+      URL: url,
+      METHOD: "get",
+    })
+  }
 };

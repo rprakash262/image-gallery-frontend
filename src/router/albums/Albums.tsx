@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 
 import { albumApi } from "../../apis/albumApi";
 import OneAlbum from "./OneAlbum";
@@ -7,14 +8,26 @@ import { imagesApi } from "../../apis/imagesApi";
 import { useNavigate } from "react-router";
 import PageLoader from "../../components/pageLoader/PageLoader";
 import NewItemFloatingBtn from "../../components/newItemFloatingBtn/NewItemFloatingBtn";
+import { setBreadcrumsSteps } from "../../store/slices/breadcrumsSlice";
 
 function Albums() {
   const [albums, setAlbums] = useState<Album[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     fetchAlbums();
+
+    dispatch(
+      setBreadcrumsSteps(["Albums"])
+    )
+
+    return () => {
+      dispatch(
+        setBreadcrumsSteps([])
+      )
+    }
   }, []);
 
   const fetchAlbums = async () => {

@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router";
+import { useSelector, useDispatch } from "react-redux";
 
 import { imagesApi } from "../../apis/imagesApi";
 import { storageApi } from "../../apis/storageApi";
+import { albumApi } from "../../apis/albumApi";
 import OnePhoto from "../photos/OnePhoto";
 import { Photo, PresignedDownloadUrl } from "../../types";
-import { useNavigate, useParams } from "react-router";
 import PageLoader from "../../components/pageLoader/PageLoader";
+import { setBreadcrumsSteps } from "../../store/slices/breadcrumsSlice";
+import { setAlertBoxMsg } from "../../store/slices/alertBoxSlice";
 
 function AlbumPhotos() {
   const { albumId } = useParams();
@@ -13,10 +17,20 @@ function AlbumPhotos() {
   const [imageSources, setImageSources] = useState<any>({});
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    fetchPhotos();
-  }, []);
+    if (albumId) {
+      fetchPhotos();
+      fetchAlbumDetails(albumId);
+    }
+
+    return () => {
+      dispatch(
+        setBreadcrumsSteps([])
+      )
+    }
+  }, [albumId]);
 
   const fetchPhotos = async () => {
     try {
@@ -44,6 +58,25 @@ function AlbumPhotos() {
       setIsLoading(false);
     }
   };
+
+  const fetchAlbumDetails = async (albumId: string) => {
+    try {
+      const response = await albumApi.fetchAlbumDetailsById(albumId);
+
+      const albumName = response.data.albumName;
+
+      dispatch(
+        setBreadcrumsSteps(["Albums", albumName])
+      )
+    } catch (error: any) {
+      dispatch(
+        setAlertBoxMsg({
+          alertMsgText: String(error.message),
+          alertMsgType: "error",
+        })
+      )
+    }
+  }
 
   const onToggleFavorite = async (photoId: string, isFavorite: boolean) => {
     try {
@@ -74,8 +107,10 @@ function AlbumPhotos() {
         height: "100%",
         overflowY: "scroll",
         display: "grid",
-        gridTemplateColumns: "auto auto auto auto",
+        // gridTemplateColumns: "auto auto auto auto",
         // gridTemplateColumns: "none",
+        gridTemplateColumns: "repeat(auto-fill, 200px)",
+        gap: "20px",
         padding: "10px",
         boxSizing: "border-box",
       }}

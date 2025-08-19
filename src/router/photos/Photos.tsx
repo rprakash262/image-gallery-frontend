@@ -96,7 +96,10 @@ function Photos() {
       }}
     >
       {photos.map((photo) => (
-        <div style={{ padding: "5px" }} key={photo._id}>
+        <div
+          // style={{ padding: "5px" }}
+          key={photo._id}
+        >
           <OnePhoto
             onClick={() => showOnePhoto(photo._id)}
             toggleFavorite={(newVal: boolean) =>

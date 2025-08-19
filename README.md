@@ -20,9 +20,9 @@ This repository contains the frontend code for the Image Gallery project.
 ### Setting up locally
   - Clone the repository using command `git clone https://github.com/rprakash262/image-gallery-frontend.git`.
   - Install the dependencies using command `npm install`.
-  - Update the **SERVER_URL** environment variables in .env file. **SERVER_RUL** the the url for backend server for image gallery project. (Check here)[https://github.com/rprakash262/image-gallery-backend] how to setup the backend server locally.
+  - Update the **SERVER_URL** environment variables in .env file. **SERVER_RUL** the the url for backend server for image gallery project. [Check here](https://github.com/rprakash262/image-gallery-backend) how to setup the backend server locally.
   - Start the application using command `npm run dev`.
     
-### (Live Demo)[https://image-gallery-frontend-8a73.onrender.com/]
+### [Live Demo](https://image-gallery-frontend-8a73.onrender.com/)
 
-### (Backend Repo)[https://github.com/rprakash262/image-gallery-backend]
+### [Backend Repo](https://github.com/rprakash262/image-gallery-backend)

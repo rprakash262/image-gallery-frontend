@@ -1,8 +1,6 @@
 import { apiServerUrl } from "../constants";
 import { CallAPI } from "../utils/callApi";
 
-const baseApiUrl = process.env.API_SERVER_URL;
-
 export const imagesApi = {
   saveNewImage: async function (fileName: string, storageArgs: any) {
     const url = new URL(`${apiServerUrl}/images`);
@@ -18,7 +16,7 @@ export const imagesApi = {
     });
   },
   fetchImages: async function () {
-    const url = new URL(`${baseApiUrl}/images?skip=0&count=10`);
+    const url = new URL(`${apiServerUrl}/images?skip=0&count=10`);
 
     return CallAPI({
       URL: url,
@@ -27,7 +25,7 @@ export const imagesApi = {
   },
   fetchImagesForAlbum: async function (albumId: string) {
     const url = new URL(
-      `${baseApiUrl}/images/album/${albumId}?skip=0&count=10`
+      `${apiServerUrl}/images/album/${albumId}?skip=0&count=10`
     );
 
     return CallAPI({
@@ -36,7 +34,7 @@ export const imagesApi = {
     });
   },
   fetchImageById: async function (imageId: string) {
-    const url = new URL(`${baseApiUrl}/images/${imageId}`);
+    const url = new URL(`${apiServerUrl}/images/${imageId}`);
 
     return CallAPI({
       URL: url,
@@ -44,7 +42,7 @@ export const imagesApi = {
     });
   },
   fetchFavoriteImages: async function () {
-    const url = new URL(`${baseApiUrl}/images/favorite?skip=0&count=10`);
+    const url = new URL(`${apiServerUrl}/images/favorite?skip=0&count=10`);
 
     return CallAPI({
       URL: url,
@@ -56,7 +54,7 @@ export const imagesApi = {
     // fieldName: string,
     fieldVal: any
   ) {
-    const url = new URL(`${baseApiUrl}/images/${imageId}`);
+    const url = new URL(`${apiServerUrl}/images/${imageId}`);
 
     return CallAPI({
       URL: url,
@@ -72,7 +70,7 @@ export const imagesApi = {
     // fieldName: string,
     fieldVal: any
   ) {
-    const url = new URL(`${baseApiUrl}/images/${imageId}`);
+    const url = new URL(`${apiServerUrl}/images/${imageId}`);
 
     return CallAPI({
       URL: url,

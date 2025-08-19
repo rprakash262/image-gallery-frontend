@@ -2,8 +2,6 @@ import { CallAPI } from "../utils/callApi";
 
 import { apiServerUrl } from "../constants";
 
-// const baseApiUrl = process.env.API_SERVER_URL;
-
 export const userApi = {
   register: async function (email: string, password: string) {
     const url = new URL(`${apiServerUrl}/users/register`);

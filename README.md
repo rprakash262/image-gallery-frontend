@@ -24,5 +24,8 @@ This repository contains the frontend code for the Image Gallery project.
   - Start the application using command `npm run dev`.
     
 ### [Live Demo](https://image-gallery-frontend-8a73.onrender.com/)
+Use below credentials to test live demo or register new.
+Email: test@gmail.com
+Password: 12345
 
 ### [Backend Repo](https://github.com/rprakash262/image-gallery-backend)

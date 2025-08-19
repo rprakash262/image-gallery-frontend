@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
 
+import { setAlertBoxMsg } from "../../store/slices/alertBoxSlice";
 import FormControl from "../../components/UI/formControl/FormControl";
 import Button from "../../components/UI/button/Button";
 import { userApi } from "../../apis/userApi";
@@ -13,10 +15,41 @@ function Login() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
 
   const redirectPath = location.state?.path || "/photos";
 
+  const validateFields = () => {
+    if (!email) {
+      dispatch(
+        setAlertBoxMsg({
+          alertMsgText: "Email is required.",
+          alertMsgType: "error",
+        })
+      );
+
+      return false;
+    }
+
+    if (!password) {
+      dispatch(
+        setAlertBoxMsg({
+          alertMsgText: "Password is required.",
+          alertMsgType: "error",
+        })
+      );
+
+      return false;
+    }
+
+    return true;
+  }
+
   const onSubmit = async () => {
+    const fieldsValidated = validateFields();
+
+    if (!fieldsValidated) return;
+
     try {
       setIsLoading(true);
       const response = await userApi.login(email, password);
@@ -25,7 +58,6 @@ function Login() {
       const user = response.data.user;
 
       login(user, accessToken);
-      // window.location.reload();
       navigate("/")
       setIsLoading(false);
     } catch (error) {

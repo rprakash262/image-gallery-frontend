@@ -16,7 +16,59 @@ function Register() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
+  const validateFields = () => {
+    if (!email) {
+      dispatch(
+        setAlertBoxMsg({
+          alertMsgText: "Email is required.",
+          alertMsgType: "error",
+        })
+      );
+
+      return false;
+    }
+
+    if (!password) {
+      dispatch(
+        setAlertBoxMsg({
+          alertMsgText: "Password is required.",
+          alertMsgType: "error",
+        })
+      );
+
+      return false;
+    }
+
+    if (!confirmPassword) {
+      dispatch(
+        setAlertBoxMsg({
+          alertMsgText: "Confirm password is required.",
+          alertMsgType: "error",
+        })
+      );
+
+      return false;
+    }
+
+    if (password !== confirmPassword) {
+      dispatch(
+        setAlertBoxMsg({
+          alertMsgText: "Passwords don't match.",
+          alertMsgType: "error",
+        })
+      );
+
+      return false;
+    }
+
+    return true;
+  }
+
   const registerUser = async () => {
+    const fieldsValidated = validateFields();
+
+    if (!fieldsValidated) return;
+
     try {
       setIsLoading(true);
       await userApi.register(email, password);
@@ -67,6 +119,7 @@ function Register() {
         />
         <FormControl
           label="Password"
+          inputType="password"
           value={password}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setPassword(e.target.value)
@@ -76,6 +129,7 @@ function Register() {
         />
         <FormControl
           label="Confirm Password"
+          inputType="password"
           value={confirmPassword}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setConfirmPassword(e.target.value)

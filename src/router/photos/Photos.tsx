@@ -4,7 +4,8 @@ import { useDispatch } from "react-redux";
 
 import { imagesApi } from "../../apis/imagesApi";
 import { storageApi } from "../../apis/storageApi";
-import OnePhoto from "./OnePhoto";
+// import OnePhoto from "./OnePhoto";
+import OnePhoto from "../../features/photo/OnePhoto";
 import { Photo, PresignedDownloadUrl } from "../../types";
 import PageLoader from "../../components/pageLoader/PageLoader";
 import NewItemFloatingBtn from "../../components/newItemFloatingBtn/NewItemFloatingBtn";
@@ -57,7 +58,6 @@ function Photos() {
     try {
       await imagesApi.toggleMarkImageAsFavorite(
         photoId,
-        // "isFavorite",
         isFavorite
       );
 
@@ -68,6 +68,10 @@ function Photos() {
       );
     } catch (error) {}
   };
+
+  const onDeletePhotoClick = (photoId: string) => {
+    //
+  }
 
   const showOnePhoto = (photoId: string) => {
     navigate(`/photo/${photoId}`);
@@ -105,8 +109,11 @@ function Photos() {
             toggleFavorite={(newVal: boolean) =>
               onToggleFavorite(photo._id, newVal)
             }
+            showFavoriteIcon={true}
+            showDeleteIcon={true}
             src={imageSources[photo._id]}
             isFavorite={photo.isFavorite}
+            onDeletePhotoClick={() => onDeletePhotoClick(photo._id)}
           />
         </div>
       ))}

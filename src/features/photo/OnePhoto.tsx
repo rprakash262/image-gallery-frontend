@@ -5,7 +5,9 @@ interface OnePhotoProps {
   src: string;
   isFavorite: boolean;
   onClick: () => void;
-  toggleFavorite: (val: boolean) => void;
+  showFavoriteIcon?: boolean;
+  showDeleteIcon?: boolean;
+  toggleFavorite?: (val: boolean) => void;
   onDeletePhotoClick?: () => void;
 }
 
@@ -13,20 +15,27 @@ function OnePhoto({
   src,
   isFavorite,
   onClick,
+  showFavoriteIcon,
   toggleFavorite,
+  showDeleteIcon,
   onDeletePhotoClick,
 }: OnePhotoProps) {
   const [mouseOver, setMouseOver] = useState<boolean>(false);
 
   const markFavorite = (e: any) => {
     e.stopPropagation();
-    toggleFavorite(true);
+    toggleFavorite && toggleFavorite(true);
   };
 
   const unMarkFavorite = (e: any) => {
     e.stopPropagation();
-    toggleFavorite(false);
+    toggleFavorite && toggleFavorite(false);
   };
+
+  const deletePhoto = (e: any) => {
+    e.stopPropagation();
+    onDeletePhotoClick && onDeletePhotoClick();
+  }
 
   return (
     <div
@@ -58,24 +67,30 @@ function OnePhoto({
             right: "10px"
           }}
         >
-          {isFavorite ? (
-            <IconHeartFilled
+          {showFavoriteIcon && (
+            <>
+              {isFavorite ? (
+                <IconHeartFilled
+                  size={24}
+                  color="var(--primary-color)"
+                  onClick={unMarkFavorite}
+                />
+              ) : (
+                <IconHeart
+                  size={24}
+                  color="var(--primary-color)"
+                  onClick={markFavorite}
+                />
+              )}
+            </>
+          )}
+          {showDeleteIcon && (
+            <IconTrash
               size={24}
               color="var(--primary-color)"
-              onClick={unMarkFavorite}
-            />
-          ) : (
-            <IconHeart
-              size={24}
-              color="var(--primary-color)"
-              onClick={markFavorite}
+              onClick={deletePhoto}
             />
           )}
-          <IconTrash
-            size={24}
-            color="var(--primary-color)"
-            onClick={onDeletePhotoClick}
-          />
         </div>
       )}
     </div>

@@ -59,6 +59,10 @@ function Favorites() {
     } catch (error) {}
   };
 
+  const onDeletePhotoClick = (photoId: string) => {
+    //
+  }
+
   const showOnePhoto = (photoId: string) => {
     navigate(`/photo/${photoId}`);
   };
@@ -88,6 +92,7 @@ function Favorites() {
             }
             src={imageSources[photo._id]}
             isFavorite={photo.isFavorite}
+            onDeletePhotoClick={() => onDeletePhotoClick(photo._id)}
           />
         </div>
       ))}

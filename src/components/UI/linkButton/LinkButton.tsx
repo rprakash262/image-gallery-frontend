@@ -1,4 +1,4 @@
-export const LinkButton = ({ onClick, label, icon: Icon, iconSize = 18 }: any) => {
+export const LinkButton = ({ onClick, label, icon: Icon, iconSize = 18, style }: any) => {
   return (
     <button
       onClick={onClick}
@@ -10,12 +10,15 @@ export const LinkButton = ({ onClick, label, icon: Icon, iconSize = 18 }: any) =
         flexDirection: "row",
         alignItems: "center",
         gap: "5px",
+        ...style
       }}
     >
       <span style={{ color: "var(--primary-color)", fontWeight: "bold" }}>
         {label}
       </span>
-      <Icon size={iconSize} color="var(--primary-color)" />
+      {Icon && (
+        <Icon size={iconSize} color="var(--primary-color)" />
+      )}
     </button>
   );
 };

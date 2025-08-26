@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { setAlertBoxMsg } from "../../store/slices/alertBoxSlice";
 import FormControl from "../../components/UI/formControl/FormControl";
 import Button from "../../components/UI/button/Button";
+import { LinkButton } from "../../components/UI/linkButton/LinkButton";
 import { userApi } from "../../apis/userApi";
 import { useAuth } from "../../hooks/useAuth";
 
@@ -65,6 +66,10 @@ function Login() {
     }
   };
 
+  const onGithubClick = () => {
+    window.open("https://github.com/rprakash262/image-gallery-frontend", "_blank")
+  }
+
   return user?._id ? (
     <Navigate to={redirectPath} />
   ) : (
@@ -81,6 +86,15 @@ function Login() {
         <h4 style={{ textAlign: "center", marginBottom: "20px" }}>
           Please fill all the details
         </h4>
+        <p style={{ marginBottom: "20px", textAlign: "center", fontSize: "12px" }}>
+          <span style={{ color: "red" }}>*</span> 
+          Demo credentials available on {" "}
+          <LinkButton
+            style={{ display: "inline-block" }}
+            label="Github"
+            onClick={onGithubClick}
+          />
+        </p>
         <FormControl
           label="Email"
           value={email}

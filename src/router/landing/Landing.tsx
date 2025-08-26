@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router";
-import { IconBrandGithubFilled } from "@tabler/icons-react";
 
 import Button from "../../components/UI/button/Button";
 import Header from "../../components/header/Header";

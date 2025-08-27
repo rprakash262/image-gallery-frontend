@@ -5,7 +5,8 @@ import { useDispatch } from "react-redux";
 import { imagesApi } from "../../apis/imagesApi";
 import { storageApi } from "../../apis/storageApi";
 // import OnePhoto from "./OnePhoto";
-import OnePhoto from "../../features/photo/OnePhoto";
+import GridWrapper from "../../common/gridWrapper/GridWrapper";
+import OneGridPhoto from "../../features/photo/OneGridPhoto";
 import { Photo, PresignedDownloadUrl } from "../../types";
 import PageLoader from "../../components/pageLoader/PageLoader";
 import NewItemFloatingBtn from "../../components/newItemFloatingBtn/NewItemFloatingBtn";
@@ -84,27 +85,13 @@ function Photos() {
   return isLoading ? (
     <PageLoader />
   ) : (
-    <div
-      style={{
-        width: "100%",
-        height: "100%",
-        overflowY: "scroll",
-        display: "grid",
-        // gridTemplateColumns: "auto auto auto auto",
-        gridTemplateColumns: "repeat(auto-fill, 200px)",
-        gap: "20px",
-        // gridTemplateColumns: "none",
-        padding: "10px",
-        boxSizing: "border-box",
-        position: "relative",
-      }}
-    >
+    <GridWrapper>
       {photos.map((photo) => (
         <div
           // style={{ padding: "5px" }}
           key={photo._id}
         >
-          <OnePhoto
+          <OneGridPhoto
             onClick={() => showOnePhoto(photo._id)}
             toggleFavorite={(newVal: boolean) =>
               onToggleFavorite(photo._id, newVal)
@@ -118,7 +105,7 @@ function Photos() {
         </div>
       ))}
       <NewItemFloatingBtn onClick={navigateToNewPhoto} />
-    </div>
+    </GridWrapper>
   );
 }
 

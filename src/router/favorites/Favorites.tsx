@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Photo, PresignedDownloadUrl } from "../../types";
-import OnePhoto from "../photos/OnePhoto";
+import OneGridPhoto from "../../features/photo/OneGridPhoto";
 import { imagesApi } from "../../apis/imagesApi";
 import { storageApi } from "../../apis/storageApi";
 import { useNavigate } from "react-router";
@@ -85,7 +85,7 @@ function Favorites() {
     >
       {photos.map((photo) => (
         <div style={{ padding: "5px" }} key={photo._id}>
-          <OnePhoto
+          <OneGridPhoto
             onClick={() => showOnePhoto(photo._id)}
             toggleFavorite={(newVal: boolean) =>
               onToggleFavorite(photo._id, newVal)

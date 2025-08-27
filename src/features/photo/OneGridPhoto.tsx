@@ -48,6 +48,8 @@ function OnePhoto({
         overflow: "hidden",
         cursor: "pointer",
         position: "relative",
+        background: "var(--image-bg-color)",
+        borderRadius: "4px",
       }}
     >
       <img
